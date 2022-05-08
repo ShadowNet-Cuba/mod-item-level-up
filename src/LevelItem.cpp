@@ -76,6 +76,38 @@ public:
     }
 };
 
+class LevelItem5 : public ItemScript
+{
+public:
+    LevelItem5() : ItemScript("LevelItem5") { }
+
+    bool OnUse(Player* p, Item* i, const SpellCastTargets &) override
+    {
+        if (!LevelItemEnable)
+            return false;
+
+        if (p->IsInCombat() || p->IsInFlight() || p->GetMap()->IsBattlegroundOrArena())
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("You can't use that right now!");
+            return false;
+        }
+
+        if (p->getLevel() >= MaxItemLevel)
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("You're already at level %u!", MaxItemLevel);
+            return false;
+        }
+
+        uint8 newLevel = p->getLevel() + 5;
+        p->GiveLevel(newLevel);
+        p->SetUInt32Value(PLAYER_XP, 0);
+        p->DestroyItemCount(i->GetEntry(), 1, true);
+        ChatHandler(p->GetSession()).PSendSysMessage("You have used one Level-Up Token!");
+
+        return true;
+    }
+};
+
 
 
 void AddLevelItemScripts()
@@ -83,4 +115,10 @@ void AddLevelItemScripts()
     new mod_levelitem_Conf();
     new mod_levelitem_Announce();
     new LevelItem();
+	
+}
+
+void AddLevelItem5Scripts()
+{
+    new LevelItem5();
 }
