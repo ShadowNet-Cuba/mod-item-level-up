@@ -9,7 +9,7 @@
 #include "GossipDef.h"
 
 uint32 Increase_Level;
-uint32 MaxItemLevel = 80;
+uint32 MaxItemLevel = 49;
 bool LevelItemEnable = true;
 bool LevelItemAnnounce = true;
 
@@ -22,9 +22,9 @@ public:
     // Load Configuration Settings
     void SetInitialWorldSettings()
     {
-        LevelItemEnable = sConfigMgr->GetBoolDefault("LevelItem.Enable", true);
-        LevelItemAnnounce = sConfigMgr->GetBoolDefault("LevelItem.Announce", true);
-        MaxItemLevel = sConfigMgr->GetIntDefault("LevelItem.MaxItemLevel", 80);
+        LevelItemEnable = sConfigMgr->GetOption<bool>("LevelItem.Enable", true);
+        LevelItemAnnounce = sConfigMgr->GetOption<bool>("LevelItem.Announce", true);
+        MaxItemLevel = sConfigMgr->GetOption<int32>("LevelItem.MaxItemLevel", 49);
     }
 };
 
@@ -37,9 +37,9 @@ public:
 
     void OnLogin(Player* player) override
     {
-        if (sConfigMgr->GetBoolDefault("Arena1v1Announcer.Enable", true))
+        if (sConfigMgr->GetOption<bool>("LevelItem.Announce", true))
         {
-            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Level Item |rmodule.");
+            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Token Level-Up Aman'Thul |rmodule.");
         }
     }
 };
@@ -56,13 +56,13 @@ public:
 
         if (p->IsInCombat() || p->IsInFlight() || p->GetMap()->IsBattlegroundOrArena())
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("You can't use that right now!");
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +1 Niveles de Aman'Thul en este momento.!");
             return false;
         }
 
         if (p->getLevel() >= MaxItemLevel)
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("You're already at level %u!", MaxItemLevel);
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +1 Niveles de Aman'Thul! tines nivel %u!", MaxItemLevel);
             return false;
         }
 
@@ -70,7 +70,7 @@ public:
         p->GiveLevel(newLevel);
         p->SetUInt32Value(PLAYER_XP, 0);
         p->DestroyItemCount(i->GetEntry(), 1, true);
-        ChatHandler(p->GetSession()).PSendSysMessage("You have used one Level-Up Token!");
+        ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Token de +1 Nivel de Aman'Thul!");
 
         return true;
     }
@@ -88,13 +88,34 @@ public:
 
         if (p->IsInCombat() || p->IsInFlight() || p->GetMap()->IsBattlegroundOrArena())
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("You can't use that right now!");
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul en este momento.!");
             return false;
         }
 
         if (p->getLevel() >= MaxItemLevel)
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("You're already at level %u!", MaxItemLevel);
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u!", p->getLevel());
+            return false;
+        }
+
+        if (p->getLevel() == 48)
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
+            return false;
+        }
+        if (p->getLevel() == 47)
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
+            return false;
+        }
+        if (p->getLevel() == 46)
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
+            return false;
+        }
+        if (p->getLevel() == 45)
+        {
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
 
@@ -102,7 +123,7 @@ public:
         p->GiveLevel(newLevel);
         p->SetUInt32Value(PLAYER_XP, 0);
         p->DestroyItemCount(i->GetEntry(), 1, true);
-        ChatHandler(p->GetSession()).PSendSysMessage("You have used one Level-Up Token!");
+        ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Token de +5 Niveles de Aman'Thul!");
 
         return true;
     }
