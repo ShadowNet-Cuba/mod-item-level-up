@@ -9,7 +9,7 @@
 #include "GossipDef.h"
 
 uint32 Increase_Level;
-uint32 MaxItemLevel = 49;
+uint32 MaxItemLevel = 59;
 bool LevelItemEnable = true;
 bool LevelItemAnnounce = true;
 
@@ -24,7 +24,7 @@ public:
     {
         LevelItemEnable = sConfigMgr->GetOption<bool>("LevelItem.Enable", true);
         LevelItemAnnounce = sConfigMgr->GetOption<bool>("LevelItem.Announce", true);
-        MaxItemLevel = sConfigMgr->GetOption<int32>("LevelItem.MaxItemLevel", 49);
+        MaxItemLevel = sConfigMgr->GetOption<int32>("LevelItem.MaxItemLevel", 59);
     }
 };
 
@@ -98,22 +98,22 @@ public:
             return false;
         }
 
-        if (p->getLevel() == 48)
+        if (p->getLevel() == 58)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 47)
+        if (p->getLevel() == 57)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 46)
+        if (p->getLevel() == 56)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 45)
+        if (p->getLevel() == 55)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
