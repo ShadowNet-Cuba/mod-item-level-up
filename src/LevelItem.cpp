@@ -9,7 +9,7 @@
 #include "GossipDef.h"
 
 uint32 Increase_Level;
-uint32 MaxItemLevel = 59;
+uint32 MaxItemLevel = 80;
 bool LevelItemEnable = true;
 bool LevelItemAnnounce = true;
 
@@ -20,11 +20,11 @@ public:
     mod_levelitem_Conf() : WorldScript("mod_levelitem_Conf") { }
 
     // Load Configuration Settings
-    void SetInitialWorldSettings()
+    void OnBeforeConfigLoad(bool /*reload*/) override
     {
         LevelItemEnable = sConfigMgr->GetOption<bool>("LevelItem.Enable", true);
         LevelItemAnnounce = sConfigMgr->GetOption<bool>("LevelItem.Announce", true);
-        MaxItemLevel = sConfigMgr->GetOption<int32>("LevelItem.MaxItemLevel", 59);
+        MaxItemLevel = sConfigMgr->GetOption<int32>("LevelItem.MaxItemLevel", 80);
     }
 };
 
@@ -37,7 +37,7 @@ public:
 
     void OnLogin(Player* player) override
     {
-        if (sConfigMgr->GetOption<bool>("LevelItem.Announce", true))
+        if (LevelItemAnnounce)
         {
             ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Token Level-Up Aman'Thul |rmodule.");
         }
@@ -98,22 +98,22 @@ public:
             return false;
         }
 
-        if (p->getLevel() == 58)
+        if (p->getLevel() == 79)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 57)
+        if (p->getLevel() == 78)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 56)
+        if (p->getLevel() == 77)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
         }
-        if (p->getLevel() == 55)
+        if (p->getLevel() == 76)
         {
             ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
             return false;
