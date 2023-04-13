@@ -1,6 +1,6 @@
 
 #include "Chat.h"
-#include "Configuration/Config.h"
+#include "Config.h"
 #include "Player.h"
 #include "Creature.h"
 #include "AccountMgr.h"
@@ -47,7 +47,7 @@ public:
 class LevelItem : public ItemScript
 {
 public:
-    LevelItem() : ItemScript("LevelItem") { }
+    LevelItem() : ItemScript("BoostLevel") { }
 
     bool OnUse(Player* p, Item* i, const SpellCastTargets &) override
     {
@@ -56,21 +56,20 @@ public:
 
         if (p->IsInCombat() || p->IsInFlight() || p->GetMap()->IsBattlegroundOrArena())
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +1 Niveles de Aman'Thul en este momento.!");
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Boost Level de Aman'Thul en este momento.!");
             return false;
         }
 
         if (p->getLevel() >= MaxItemLevel)
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +1 Niveles de Aman'Thul! tines nivel %u!", MaxItemLevel);
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Boost Level de Aman'Thul! tienes nivel %u!", MaxItemLevel);
             return false;
         }
 
-        uint8 newLevel = p->getLevel() + 1;
-        p->GiveLevel(newLevel);
+        p->GiveLevel(MaxItemLevel);
         p->SetUInt32Value(PLAYER_XP, 0);
         p->DestroyItemCount(i->GetEntry(), 1, true);
-        ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Token de +1 Nivel de Aman'Thul!");
+        ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Boost Level de Aman'Thul!");
 
         return true;
     }
@@ -94,37 +93,23 @@ public:
 
         if (p->getLevel() >= MaxItemLevel)
         {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u!", p->getLevel());
-            return false;
-        }
-
-        if (p->getLevel() == 79)
-        {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
-            return false;
-        }
-        if (p->getLevel() == 78)
-        {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
-            return false;
-        }
-        if (p->getLevel() == 77)
-        {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
-            return false;
-        }
-        if (p->getLevel() == 76)
-        {
-            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tines nivel %u", p->getLevel());
+            ChatHandler(p->GetSession()).PSendSysMessage("No puedes usar el Token de +5 Niveles de Aman'Thul! tienes nivel %u!", p->getLevel());
             return false;
         }
 
         uint8 newLevel = p->getLevel() + 5;
-        p->GiveLevel(newLevel);
-        p->SetUInt32Value(PLAYER_XP, 0);
-        p->DestroyItemCount(i->GetEntry(), 1, true);
-        ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Token de +5 Niveles de Aman'Thul!");
-
+		
+		if (newLevel >= MaxItemLevel )
+		{
+			p->GiveLevel(MaxItemLevel);
+		}
+		else {
+			p->GiveLevel(newLevel);
+			p->SetUInt32Value(PLAYER_XP, 0);
+			p->DestroyItemCount(i->GetEntry(), 1, true);
+			ChatHandler(p->GetSession()).PSendSysMessage("Has usado el Token de +5 Niveles de Aman'Thul!");
+		}	
+		
         return true;
     }
 };
